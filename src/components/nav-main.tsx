@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -23,7 +24,9 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
+      <SidebarGroupLabel>Edit</SidebarGroupLabel>
       <SidebarGroupContent className="flex flex-col gap-2">
+        
         <SidebarMenu>
           {items.map((item) => (
             <Link href={item.url} key={item.title}>
