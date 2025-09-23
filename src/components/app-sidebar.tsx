@@ -18,7 +18,7 @@ import {
   IconSettings,
   IconUsers,
   IconLogin,
-  IconRegistered
+  IconRegistered,
 } from "@tabler/icons-react";
 
 import { NavDocuments } from "@/components/nav-documents";
@@ -132,7 +132,7 @@ const data = {
     },
     {
       name: "Register",
-      url: "/register",
+      url: "register",
       icon: IconRegistered,
     },
   ],

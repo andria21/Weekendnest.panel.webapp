@@ -17,8 +17,8 @@ export default function Dashboard({ user }: { user: User }) {
     const { logout } = useAuth()
   return (
     <div className="flex flex-1 flex-col">
-      <h1 className="text-2xl font-bold">Welcome, {user.name}!</h1>
-      <Button variant={"destructive"} className="cursor-pointer w-25"
+      <h1 className="text-2xl font-bold px-6 py-4">Welcome, {user.name}!</h1>
+      <Button variant={"destructive"} className="cursor-pointer w-25 ml-6"
       onClick={() => {
           logout()
         }}

@@ -62,7 +62,7 @@ export default function Register() {
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button type="submit" className="w-full cursor-pointer">
-            Login
+            Register
           </Button>
         </CardFooter>
       </Card>

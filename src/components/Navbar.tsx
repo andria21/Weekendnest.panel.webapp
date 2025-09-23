@@ -11,11 +11,10 @@ export default function Navbar({children}:{children:ReactNode}) {
   const pathname = usePathname()
 
   const pageTitleMap: Record<string, string> = {
-    "/": "Dashboard",
+    "/dashboard": "Dashboard",
     "/navigation": "Navigation",
     "/hero-section": "Hero Section",
     "/products": "Products",
-    "/login": "Login",
     "/register": "Register",
   }
 
