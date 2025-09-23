@@ -1,8 +1,9 @@
 "use client";
 
 import { useAuth } from "@/stores/useAuth";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function Home() {
   const router = useRouter();
@@ -14,14 +15,22 @@ export default function Home() {
 
   useEffect(() => {
     if (initialized && !user) {
-      router.push("/login");
+      router.replace("/login");
+    }
+    if (initialized && user) {
+      router.replace("/dashboard");
     }
   }, [initialized, user, router]);
 
-  if (!user) {
-    return <div className="p-8">Checking authentication...</div>;
+  if (!initialized || !user) {
+    return (
+      <div className="p-8">
+        <Spinner />
+        Checking authentication...
+      </div>
+    );
   }
 
-  redirect("/dashboard");
-  // TODO: redirect /dashboard
+  // While waiting for router.push
+  return null;
 }

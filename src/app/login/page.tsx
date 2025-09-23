@@ -25,15 +25,15 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
- useEffect(() => {
-    init()
-  }, [init])
+  useEffect(() => {
+    init();
+  }, [init]);
 
   useEffect(() => {
     if (initialized && user) {
-      router.push("/") // redirect once logged in
+      router.push("/"); // redirect once logged in
     }
-  }, [initialized, user, router])
+  }, [initialized, user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,21 +98,21 @@ export default function Login() {
               </div>
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
+
+            <Button
+              type="submit"
+              className="w-full cursor-pointer mt-6"
+              onClick={(e) => {
+                e.preventDefault();
+                void handleSubmit(e as unknown as React.FormEvent);
+              }}
+              disabled={loading}
+            >
+              Login
+            </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button
-            type="submit"
-            className="w-full cursor-pointer"
-            onClick={(e) => {
-              e.preventDefault();
-              void handleSubmit(e as unknown as React.FormEvent);
-            }}
-            disabled={loading}
-          >
-            Login
-          </Button>
-        </CardFooter>
+        {/* <CardFooter className="flex-col gap-2"></CardFooter> */}
       </Card>
     </div>
   );
