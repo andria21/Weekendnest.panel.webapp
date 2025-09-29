@@ -1,54 +1,99 @@
+// "use client";
+
+// import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardAction,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import Link from "next/link";
+
+// export default function Login() {
+//   return (
+//     <div className="flex justify-center items-center mt-30">
+//       <Card className="w-full max-w-sm">
+//         <CardHeader>
+//           <CardTitle>Login to your account</CardTitle>
+//           <CardDescription>
+//             Enter your email below to login to your account
+//           </CardDescription>
+//         </CardHeader>
+//         <CardContent>
+//           <form>
+//             <div className="flex flex-col gap-6">
+//               <div className="grid gap-2">
+//                 <Label htmlFor="email">Email</Label>
+//                 <Input
+//                   id="email"
+//                   type="email"
+//                   placeholder="m@example.com"
+//                   required
+//                 />
+//               </div>
+//               <div className="grid gap-2">
+//                 <div className="flex items-center">
+//                   <Label htmlFor="password">Password</Label>
+//                 </div>
+//                 <Input id="password" type="password" required />
+//               </div>
+//             </div>
+
+//             <Button type="submit" className="w-full cursor-pointer mt-6">
+//               Login
+//             </Button>
+//           </form>
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// }
+
+// app/login/page.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/stores/useAuth";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { loginAction } from "@/actions/auth"; // Import the server action
+import { useActionState } from "react";
+
+// Helper component to show loading state
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      className="w-full cursor-pointer mt-6"
+      disabled={pending}
+    >
+      {pending ? "Logging In..." : "Login"}
+    </Button>
+  );
+}
 
 export default function Login() {
-  const router = useRouter();
-  const { login, init, user, initialized } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    init();
-  }, [init]);
-
-  useEffect(() => {
-    if (initialized && user) {
-      router.push("/"); // redirect once logged in
-    }
-  }, [initialized, user, router]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    const ok = await login(email.trim(), password);
-    setLoading(false);
-
-    if (ok) {
-      router.push("/");
-    } else {
-      setError("Invalid credentials. Try demo@demo.com / password123");
-    }
+  // Initial state for the form response
+  const initialState = {
+    success: false,
+    message: "",
   };
+
+  // useActionState hooks the state up to the server action
+  const [state, formAction] = useActionState(loginAction, initialState);
 
   return (
     <div className="flex justify-center items-center mt-30">
@@ -58,61 +103,43 @@ export default function Login() {
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
-          <CardAction>
-            <Link href="/register">
-              <Button variant="link" className="cursor-pointer">
-                Sign Up
-              </Button>
-            </Link>
-          </CardAction>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={formAction}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="m@example.com"
                   required
-                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <Input id="password" name="password" type="password" required />
               </div>
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
 
-            <Button
-              type="submit"
-              className="w-full cursor-pointer mt-6"
-              onClick={(e) => {
-                e.preventDefault();
-                void handleSubmit(e as unknown as React.FormEvent);
-              }}
-              disabled={loading}
-            >
-              Login
-            </Button>
+            {/* Display status message */}
+            {state.message && (
+              <p
+                aria-live="polite"
+                className={`mt-4 text-sm ${
+                  state.success ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {state.message}
+              </p>
+            )}
+
+            <LoginButton />
           </form>
         </CardContent>
-        {/* <CardFooter className="flex-col gap-2"></CardFooter> */}
       </Card>
     </div>
   );

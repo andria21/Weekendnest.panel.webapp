@@ -7,30 +7,14 @@ import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function Home() {
   const router = useRouter();
-  const { user, init, initialized } = useAuth();
-
   useEffect(() => {
-    init();
-  }, [init]);
+    router.replace("/dashboard"); // replace() is better than push() here
+  }, [router]);
 
-  useEffect(() => {
-    if (initialized && !user) {
-      router.replace("/login");
-    }
-    if (initialized && user) {
-      router.replace("/dashboard");
-    }
-  }, [initialized, user, router]);
-
-  if (!initialized || !user) {
-    return (
-      <div className="p-8">
-        <Spinner />
-        Checking authentication...
-      </div>
-    );
-  }
-
-  // While waiting for router.push
   return null;
 }
+// (
+//     <div className="flex justify-center items-center h-screen w-full">
+//       <Spinner />
+//     </div>
+//   );
