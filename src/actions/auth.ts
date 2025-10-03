@@ -43,6 +43,8 @@ export async function loginAction(
   }
 
   try {
+    // mock wait
+    // await new Promise((r) => setTimeout(r, 1000));
     const data: LoginResponse = await apiFetch("/auth/login", "POST", {
       email,
       password,
