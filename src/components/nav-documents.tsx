@@ -42,15 +42,6 @@ export function NavDocuments({
       <SidebarGroupLabel>Authentication</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          // <SidebarMenuItem key={item.name}>
-          //   <SidebarMenuButton asChild>
-          //     <a href={item.url}>
-          //       <item.icon />
-          //       <span>{item.name}</span>
-          //     </a>
-          //   </SidebarMenuButton>
-
-          // </SidebarMenuItem>
           <Link href={item.url} key={item.name}>
             <SidebarMenuItem>
               <SidebarMenuButton tooltip={item.name} className="cursor-pointer">
@@ -64,3 +55,12 @@ export function NavDocuments({
     </SidebarGroup>
   );
 }
+// <SidebarMenuItem key={item.name}>
+//   <SidebarMenuButton asChild>
+//     <a href={item.url}>
+//       <item.icon />
+//       <span>{item.name}</span>
+//     </a>
+//   </SidebarMenuButton>
+
+// </SidebarMenuItem>

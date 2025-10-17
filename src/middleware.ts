@@ -2,16 +2,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PROTECTED_ROUTES = [
+const PROTECTED_ROUTES = ["/register"];
+
+const PUBLIC_AUTH_ROUTES = [
+  "/login",
   "/",
   "/dashboard",
   "/navigation",
   "/hero-section",
   "/products",
-  "/register",
 ];
-
-const PUBLIC_AUTH_ROUTES = ["/login"];
 
 const LOGIN_URL = "/login";
 const HOME_URL = "/";

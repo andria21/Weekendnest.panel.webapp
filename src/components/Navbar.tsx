@@ -15,6 +15,7 @@ export default function Navbar({children}:{children:ReactNode}) {
     "/navigation": "Navigation",
     "/hero-section": "Hero Section",
     "/products": "Products",
+    "/brands": "Brands",
     "/register": "Register",
   }
 
