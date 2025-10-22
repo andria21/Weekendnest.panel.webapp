@@ -11,7 +11,7 @@ export const deleteBrand = async (id: string | number): Promise<boolean> => {
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-    });
+    });    
 
     if (!res.ok) {
       throw new Error(`Failed to delete brand: ${res.status} ${res.statusText}`);

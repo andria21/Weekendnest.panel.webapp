@@ -2,10 +2,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PROTECTED_ROUTES = ["/register"];
+const PROTECTED_ROUTES = ["/gg"];
 
 const PUBLIC_AUTH_ROUTES = [
   "/login",
+  "/register",
   "/",
   "/dashboard",
   "/navigation",

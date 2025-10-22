@@ -63,6 +63,21 @@ const data = {
       url: "brands",
       icon: IconChartBar,
     },
+    {
+      title: "Cart",
+      url: "cart",
+      icon: IconChartBar,
+    },
+    {
+      title: "Categories",
+      url: "categories",
+      icon: IconChartBar,
+    },
+    {
+      title: "Collections",
+      url: "collections",
+      icon: IconChartBar,
+    },
   ],
   navClouds: [
     {
@@ -167,7 +182,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

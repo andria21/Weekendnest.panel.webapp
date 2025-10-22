@@ -1,7 +1,7 @@
 // app/actions/getBrands.ts
 export interface BrandItem {
   description: string;
-  id: string;
+  id: number;
   isActive: boolean;
   logoUrl: string;
   name: string;

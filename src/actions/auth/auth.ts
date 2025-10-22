@@ -26,15 +26,4 @@ export const loginAction = async (formData: FormData): Promise<void> => {
     path: "/",
     maxAge: data.expiresIn ?? 60 * 60 * 24, // 1 day
   });
-
-  // No return value here — TypeScript is happy
 };
-
-// const cookieStore = await cookies();
-// cookieStore.set("auth_token", data.token, {
-//   httpOnly: true,
-//   secure: true,
-//   sameSite: "lax",
-//   path: "/",
-//   maxAge: data.expiresIn ?? 60 * 60 * 24, // 1 day
-// });
