@@ -1,27 +1,32 @@
 'use server';
 
 import { authorizedFetch } from '../apiClient';
+import { z } from 'zod';
 
-export interface CartItem {
-  id: number;
-  productId: number;
-  quantity: number;
-  price: number;
-}
+const CartItemSchema = z.object({
+  id: z.number(),
+  productId: z.number(),
+  quantity: z.number(),
+  price: z.number(),
+});
 
-export interface CartData {
-  id: number;
-  cartKey: string;
-  userId: number;
-  items: CartItem[];
-  subtotal: number;
-  currency: string;
-}
+const CartDataSchema = z.object({
+  id: z.number(),
+  cartKey: z.string(),
+  userId: z.number(),
+  items: z.array(CartItemSchema),
+  subtotal: z.number(),
+  currency: z.string(),
+});
 
-export interface CartResponse {
-  success: boolean;
-  data: CartData;
-}
+const CartResponseSchema = z.object({
+  success: z.boolean(),
+  data: CartDataSchema,
+});
+
+export type CartItem = z.infer<typeof CartItemSchema>;
+export type CartData = z.infer<typeof CartDataSchema>;
+export type CartResponse = z.infer<typeof CartResponseSchema>;
 
 export const getCart = async (cartId: string | number): Promise<CartResponse | null> => {
   try {
@@ -34,13 +39,15 @@ export const getCart = async (cartId: string | number): Promise<CartResponse | n
       headers: { 'Content-Type': 'application/json' },
     });
 
-    const data = await res.json();
+    const json = await res.json();
 
-    if (!res.ok || !data.success) {
-      throw new Error(`Failed to fetch cart: ${res.status} ${res.statusText}`);
+    const parsed = CartResponseSchema.safeParse(json);
+    if (!parsed.success) {
+      console.error('Cart response validation failed:', parsed.error);
+      return null;
     }
 
-    return data as CartResponse;
+    return parsed.data;
   } catch (error) {
     console.error('Error fetching cart:', error);
     return null;

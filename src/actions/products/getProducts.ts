@@ -1,24 +1,7 @@
-"use server";
+'use server';
 
 import { authorizedFetch } from "../apiClient";
-
-export interface ProductItem {
-  id: number;
-  sku: string;
-  name: string;
-  slug: string;
-  description?: string;
-  brandId: number;
-  featured: boolean;
-  status: string;
-}
-
-export interface ProductResponse {
-  items: ProductItem[];
-  total: number;
-  page: number;
-  pageSize: number;
-}
+import { ProductResponseSchema, ProductResponse } from "@/types/product";
 
 export const getProducts = async (): Promise<ProductResponse> => {
   try {
@@ -30,13 +13,11 @@ export const getProducts = async (): Promise<ProductResponse> => {
     });
 
     if (!res.ok) {
-      throw new Error(
-        `Failed to fetch products: ${res.status} ${res.statusText}`
-      );
+      throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
     }
 
-    const data: ProductResponse = await res.json();
-    return data;
+    const data = await res.json();
+    return ProductResponseSchema.parse(data);
   } catch (error) {
     console.error("Error fetching products:", error);
     return {

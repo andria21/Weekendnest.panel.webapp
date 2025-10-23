@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { getCategory, CategoryData } from "@/actions/categories/getCategory";
+import { getCategory } from "@/actions/categories/getCategory";
 import {
   Card,
   CardHeader,
@@ -17,6 +17,7 @@ import { EditModalForm } from "@/components/forms/EditForm";
 import { DeleteButton } from "@/components/forms/DeleteButton";
 import { deleteCategory } from "@/actions/categories/deleteCategory";
 import { updateCategory } from "@/actions/categories/updateCategory";
+import { CategoryData } from "@/types/categoriesGet";
 
 const categoryFields: FieldConfig[] = [
   {
@@ -57,8 +58,6 @@ export default function CategoryEdit() {
     setCategory(data);
     setLoading(false);
   };
-
-  
 
   return (
     <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
@@ -111,10 +110,10 @@ export default function CategoryEdit() {
               fields={[
                 { name: "name", label: "Name" },
                 { name: "slug", label: "Slug" },
-                { name: "parentId", label: "Parent ID" },
+                { name: "parentId", label: "Parent ID", type: "number" },
                 { name: "description", label: "Description" },
                 { name: "isActive", label: "Active", type: "checkbox" },
-                { name: "position", label: "Position" },
+                { name: "position", label: "Position", type: "number" },
               ]}
               submitAction={async (data) => {
                 return updateCategory(data.id, data);

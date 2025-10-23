@@ -13,7 +13,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { IconTrendingUp } from "@tabler/icons-react";
 import { createCollection } from "@/actions/collections/createCollection";
-import Link from "next/link";
 import { DeleteButton } from "@/components/forms/DeleteButton";
 import { deleteCollection } from "@/actions/collections/deleteCollection";
 import { EditModalForm } from "@/components/forms/EditForm";
@@ -28,7 +27,7 @@ const collectionFields: FieldConfig[] = [
   },
   { name: "slug", label: "Slug", placeholder: "Slug", required: true },
   {
-    name: "logoUrl",
+    name: "imageUrl",
     label: "Image URL",
     placeholder: "Image URL",
     required: false,
@@ -45,7 +44,7 @@ const collectionFields: FieldConfig[] = [
 
 export default async function BrandsEdit() {
   const collections = await getCollections();
-  // ? might switch to client side and render id items here instead of parallel routes
+  
   return (
     <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
       <div className="order-2 lg:order-1 grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">

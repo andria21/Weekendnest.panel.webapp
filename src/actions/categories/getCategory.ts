@@ -1,26 +1,16 @@
 'use server';
 
-import { authorizedFetch } from '../apiClient';
-
-export interface CategoryData {
-  id: number;
-  parentId: number | null;
-  name: string;
-  slug: string;
-  description?: string;
-  isActive: boolean;
-  position: number;
-}
+import { authorizedFetch } from "../apiClient";
+import { CategoryDataSchema, CategoryData } from "@/types/categoriesGet";
 
 export const getCategory = async (categoryId: string | number): Promise<CategoryData | null> => {
   try {
-    if (!categoryId) throw new Error('Category ID is required');
+    if (!categoryId) throw new Error("Category ID is required");
 
     const url = `${process.env.BASE_URL}/api/catalog/categories/${categoryId}`;
-
     const res = await authorizedFetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
     });
 
     if (!res.ok) {
@@ -28,10 +18,10 @@ export const getCategory = async (categoryId: string | number): Promise<Category
       throw new Error(`Failed to fetch category: ${res.status} ${res.statusText}. Body: ${text}`);
     }
 
-    const data: CategoryData = await res.json();
-    return data;
+    const data = await res.json();
+    return CategoryDataSchema.parse(data);
   } catch (error) {
-    console.error('Error fetching category:', error);
+    console.error("Error fetching category:", error);
     return null;
   }
 };

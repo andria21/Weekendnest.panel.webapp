@@ -13,8 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   getShippingOptions,
-  ShippingOption,
 } from "@/actions/shipping/getShipping";
+import { ShippingOption } from "@/types/shipping";
 
 const shippingFields: FieldConfig[] = [
   { name: "code", label: "Code", placeholder: "Code", required: true },

@@ -1,29 +1,21 @@
 'use server';
 
 import { authorizedFetch } from '../apiClient';
-import type { ProductItem } from './getProducts';
-
-export interface ProductUpdateInput {
-  sku: string;
-  name: string;
-  slug: string;
-  description?: string;
-  brandId: number;
-  featured: boolean;
-  status: string;
-}
+import { ProductItemSchema, ProductUpdateInputSchema, ProductItem, ProductUpdateInput } from '@/types/product';
 
 export const updateProduct = async (
   id: number,
   product: ProductUpdateInput
 ): Promise<ProductItem | null> => {
   try {
+    const parsedInput = ProductUpdateInputSchema.parse(product);
+
     const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(parsedInput),
     });
 
     if (!res.ok) {
@@ -33,8 +25,8 @@ export const updateProduct = async (
       );
     }
 
-    const data: ProductItem = await res.json();
-    return data;
+    const data = await res.json();
+    return ProductItemSchema.parse(data);
   } catch (error) {
     console.error('Error updating product:', error);
     return null;

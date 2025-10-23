@@ -1,39 +1,38 @@
 "use server";
 
+import { z } from "zod";
 import { authorizedFetch } from "../apiClient";
 
-export interface BrandUpdate {
-  id: number;
-  name?: string;
-  slug?: string;
-  logoUrl?: string;
-  description?: string;
-  isActive?: boolean;
-}
+const BrandUpdateSchema = z.object({
+  id: z.number(),
+  name: z.string().optional(),
+  slug: z.string().optional(),
+  logoUrl: z.string().optional(),
+  description: z.string().optional(),
+  isActive: z.boolean().optional(),
+});
 
-export interface BrandResponse {
-  id: string;
-  name: string;
-  slug: string;
-  logoUrl?: string;
-  description?: string;
-  isActive: boolean;
-}
+const BrandResponseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  logoUrl: z.string().optional(),
+  description: z.string().optional(),
+  isActive: z.boolean(),
+});
 
-export const updateBrand = async (
-  brand: BrandUpdate
-): Promise<BrandResponse | null> => {
+export const updateBrand = async (brand: unknown) => {
   try {
-    if (!brand.id) throw new Error("Missing brand ID");
+    const parsedBrand = BrandUpdateSchema.parse(brand);
 
     const res = await authorizedFetch(
-      `${process.env.BASE_URL}/api/catalog/brands/${brand.id}`,
+      `${process.env.BASE_URL}/api/catalog/brands/${parsedBrand.id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json; charset=utf-8",
         },
-        body: JSON.stringify(brand),
+        body: JSON.stringify(parsedBrand),
       }
     );
 
@@ -43,8 +42,8 @@ export const updateBrand = async (
       );
     }
 
-    const data: BrandResponse = await res.json();
-    return data;
+    const json = await res.json();
+    return BrandResponseSchema.parse(json);
   } catch (error) {
     console.error("Error updating brand:", error);
     return null;

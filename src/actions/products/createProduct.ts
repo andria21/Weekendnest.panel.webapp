@@ -1,29 +1,36 @@
-'use server';
+"use server";
 
-import { authorizedFetch } from '../apiClient';
-import type { ProductItem } from './getProducts';
+import { authorizedFetch } from "../apiClient";
+import { z } from "zod";
 
-export interface ProductCreateInput {
-  sku: string;
-  name: string;
-  slug: string;
-  description?: string;
-  brandId: number;
-  featured: boolean;
-  status: string;
-}
+export const ProductCreateInputSchema = z.object({
+  sku: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+  brandId: z.number(),
+  featured: z.boolean(),
+  status: z.string(),
+});
+
+export type ProductCreateInput = z.infer<typeof ProductCreateInputSchema>;
 
 export const createProduct = async (
   product: ProductCreateInput
-): Promise<ProductItem | null> => {
+): Promise<ProductCreateInput | null> => {
   try {
-    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(product),
-    });
+    const parsed = ProductCreateInputSchema.parse(product);
+
+    const res = await authorizedFetch(
+      `${process.env.BASE_URL}/api/catalog/products`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(parsed),
+      }
+    );
 
     if (!res.ok) {
       const text = await res.text();
@@ -32,10 +39,10 @@ export const createProduct = async (
       );
     }
 
-    const data: ProductItem = await res.json();
+    const data: ProductCreateInput = await res.json();
     return data;
   } catch (error) {
-    console.error('Error creating product:', error);
+    console.error("Error creating product:", error);
     return null;
   }
 };

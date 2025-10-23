@@ -19,6 +19,11 @@ import {
   IconUsers,
   IconLogin,
   IconRegistered,
+  IconPackage,
+  IconArchive,
+  IconShoppingCart,
+  IconTruck,
+  IconLayersUnion,
 } from "@tabler/icons-react";
 
 import { NavDocuments } from "@/components/nav-documents";
@@ -46,80 +51,32 @@ const data = {
     {
       title: "Products",
       url: "products",
-      icon: IconChartBar,
+      icon: IconPackage,
     },
     {
       title: "Brands",
       url: "brands",
-      icon: IconChartBar,
+      icon: IconArchive,
     },
     {
       title: "Cart",
       url: "cart",
-      icon: IconChartBar,
+      icon: IconShoppingCart,
     },
     {
       title: "Categories",
       url: "categories",
-      icon: IconChartBar,
+      icon: IconFolder,
     },
     {
       title: "Collections",
       url: "collections",
-      icon: IconChartBar,
+      icon: IconLayersUnion,
     },
     {
       title: "Shipping",
       url: "shipping",
-      icon: IconChartBar,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      icon: IconTruck,
     },
   ],
   navSecondary: [

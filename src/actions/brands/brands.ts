@@ -1,19 +1,23 @@
-// app/actions/getBrands.ts
-export interface BrandItem {
-  description: string;
-  id: number;
-  isActive: boolean;
-  logoUrl: string;
-  name: string;
-  slug: string;
-}
+import { z } from "zod";
 
-export interface BrandResponse {
-  items: BrandItem[];
-  total: number;
-  page: number;
-  pageSize: number;
-}
+export const BrandItemSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string(),
+  logoUrl: z.string(),
+  isActive: z.boolean(),
+});
+
+export const BrandResponseSchema = z.object({
+  items: z.array(BrandItemSchema),
+  total: z.number(),
+  page: z.number(),
+  pageSize: z.number(),
+});
+
+export type BrandItem = z.infer<typeof BrandItemSchema>;
+export type BrandResponse = z.infer<typeof BrandResponseSchema>;
 
 export const getBrands = async (): Promise<BrandResponse> => {
   try {
@@ -30,7 +34,10 @@ export const getBrands = async (): Promise<BrandResponse> => {
       );
     }
 
-    const data: BrandResponse = await res.json();
+    const json = await res.json();
+
+    const data = BrandResponseSchema.parse(json);
+
     return data;
   } catch (error) {
     console.error("Error fetching brands:", error);

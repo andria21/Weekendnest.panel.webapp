@@ -1,28 +1,39 @@
-'use server';
+"use server";
 
-import { authorizedFetch } from '../apiClient';
-import type { CollectionItem } from './getCollections';
+import { authorizedFetch } from "../apiClient";
+import { z } from "zod";
 
-export interface CollectionCreateInput {
-  name: string;
-  slug: string;
-  description?: string;
-  imageUrl?: string;
-  isActive?: boolean;
-  position?: number;
-}
+const CollectionCreateInputSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+  imageUrl: z.string().nullable().optional(),
+  isActive: z.boolean().optional(),
+  position: z.union([z.number(), z.string().transform(Number)]).optional(),
+});
 
-export const createCollection = async (
-  collection: CollectionCreateInput
-): Promise<CollectionItem | null> => {
+const CollectionItemSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+  imageUrl: z.string().optional(),
+  isActive: z.boolean(),
+  position: z.number().optional(),
+});
+
+export const createCollection = async (collection: unknown) => {
   try {
-    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: JSON.stringify(collection),
-    });
+    const parsed = CollectionCreateInputSchema.parse(collection);
+
+    const res = await authorizedFetch(
+      `${process.env.BASE_URL}/api/catalog/collections`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify(parsed),
+      }
+    );
 
     if (!res.ok) {
       const text = await res.text();
@@ -31,10 +42,10 @@ export const createCollection = async (
       );
     }
 
-    const data: CollectionItem = await res.json();
-    return data;
+    const data = await res.json();
+    return CollectionItemSchema.parse(data);
   } catch (error) {
-    console.error('Error creating collection:', error);
+    console.error("Error creating collection:", error);
     return null;
   }
 };

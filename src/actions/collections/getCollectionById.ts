@@ -1,27 +1,29 @@
 'use server';
 
 import { authorizedFetch } from '../apiClient';
+import { z } from 'zod';
 
-export interface CollectionData {
-  id: number;
-  name: string;
-  slug: string;
-  description?: string;
-  imageUrl?: string;
-  isActive: boolean;
-  position: number;
-}
+const CollectionDataSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+  imageUrl: z.string().nullable().optional(),
+  isActive: z.boolean(),
+  position: z.number(),
+});
 
-export const getCollectionById = async (
-  id: number
-): Promise<CollectionData | null> => {
+export const getCollectionById = async (id: number) => {
   try {
-    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    });
+    const res = await authorizedFetch(
+      `${process.env.BASE_URL}/api/catalog/collections/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      }
+    );
 
     if (!res.ok) {
       const text = await res.text();
@@ -30,8 +32,8 @@ export const getCollectionById = async (
       );
     }
 
-    const data: CollectionData = await res.json();
-    return data;
+    const data = await res.json();
+    return CollectionDataSchema.parse(data);
   } catch (error) {
     console.error('Error fetching collection by ID:', error);
     return null;
