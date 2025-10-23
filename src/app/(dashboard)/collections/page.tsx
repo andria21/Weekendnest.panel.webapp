@@ -97,7 +97,7 @@ export default async function BrandsEdit() {
               <DeleteButton
                 id={collection.id}
                 deleteAction={deleteCollection}
-                entityName="Brand"
+                entityName="Collection"
               />
             </CardFooter>
           </Card>

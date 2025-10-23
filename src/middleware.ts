@@ -2,21 +2,22 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PROTECTED_ROUTES = ["/gg"];
-
-const PUBLIC_AUTH_ROUTES = [
-  "/login",
-  "/register",
+const PROTECTED_ROUTES = [
   "/",
   "/dashboard",
-  "/navigation",
-  "/hero-section",
+  "/register",
   "/products",
+  "/brands",
+  "/cart",
+  "/categories",
+  "/collections",
 ];
+
+const PUBLIC_AUTH_ROUTES = ["/login"];
 
 const LOGIN_URL = "/login";
 const HOME_URL = "/";
-const JWT_COOKIE_KEY = "jwt";
+const JWT_COOKIE_KEY = "auth_token";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;

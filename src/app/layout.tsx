@@ -37,7 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <RouteLoader />
+          {/* <RouteLoader /> */}
           {children}
           <Toaster richColors position="bottom-right" />
         </ThemeProvider>

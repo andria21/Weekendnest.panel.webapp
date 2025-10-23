@@ -44,16 +44,6 @@ const data = {
   },
   navMain: [
     {
-      title: "Navigation",
-      url: "/navigation",
-      icon: IconDashboard,
-    },
-    {
-      title: "Hero",
-      url: "hero-section",
-      icon: IconListDetails,
-    },
-    {
       title: "Products",
       url: "products",
       icon: IconChartBar,

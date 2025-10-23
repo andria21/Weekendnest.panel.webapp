@@ -1,18 +1,11 @@
 "use client";
 
-import {
-  IconCreditCard,
-  IconDotsVertical,
-  IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react";
+import { IconDotsVertical, IconLogout } from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -24,12 +17,16 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { meAction, MeResponse } from "@/actions/auth/me";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { logout } from "@/actions/auth/logout";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const [user, setUser] = useState<MeResponse | null>(null);
 
@@ -39,14 +36,27 @@ export function NavUser() {
 
   if (!user) return null;
 
+  const handleLogout = () => {
+    startTransition(async () => {
+      try {
+        await logout(); // clear server-side cookie
+        toast.success("Logged out successfully");
+        router.push("/login"); // redirect to login page
+      } catch (err) {
+        console.error(err);
+        toast.error("Logout failed");
+      }
+    });
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
                 <AvatarImage src={"/avatars/shadcn.jpg"} alt={user.name} />
@@ -82,9 +92,13 @@ export function NavUser() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={handleLogout}
+              disabled={isPending}
+            >
               <IconLogout />
-              Log out
+              {isPending ? "Logging out..." : "Log out"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
