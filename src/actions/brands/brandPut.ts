@@ -27,7 +27,7 @@ export const updateBrand = async (
     if (!brand.id) throw new Error("Missing brand ID");
 
     const res = await authorizedFetch(
-      `http://localhost:5211/api/catalog/brands/${brand.id}`,
+      `${process.env.BASE_URL}/api/catalog/brands/${brand.id}`,
       {
         method: "PUT",
         headers: {

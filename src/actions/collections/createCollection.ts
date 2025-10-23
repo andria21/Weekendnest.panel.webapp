@@ -16,7 +16,7 @@ export const createCollection = async (
   collection: CollectionCreateInput
 ): Promise<CollectionItem | null> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/collections', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

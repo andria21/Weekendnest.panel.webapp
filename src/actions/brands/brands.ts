@@ -17,7 +17,7 @@ export interface BrandResponse {
 
 export const getBrands = async (): Promise<BrandResponse> => {
   try {
-    const res = await fetch("http://localhost:5211/api/catalog/brands", {
+    const res = await fetch(`${process.env.BASE_URL}/api/catalog/brands`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

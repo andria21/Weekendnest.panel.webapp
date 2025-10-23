@@ -7,7 +7,7 @@ export const loginAction = async (formData: FormData): Promise<void> => {
 
   if (!email || !password) throw new Error("Email and password required");
 
-  const res = await fetch("http://localhost:5211/api/Auth/login", {
+  const res = await fetch(`${process.env.BASE_URL}/api/Auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json; charset=utf-8" },
     body: JSON.stringify({ email, password }),

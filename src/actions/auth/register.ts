@@ -25,7 +25,7 @@ export const registerAction = async (
   if (!email || !password || !firstName || !lastName)
     throw new Error("Missing required fields");
 
-  const res = await fetch("http://localhost:5211/api/Auth/register", {
+  const res = await fetch(`${process.env.BASE_URL}/api/Auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",

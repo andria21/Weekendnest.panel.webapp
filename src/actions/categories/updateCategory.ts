@@ -26,7 +26,7 @@ export const updateCategory = async (
   category: CategoryUpdateInput
 ): Promise<CategoryData | null> => {
   try {
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/categories/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/categories/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

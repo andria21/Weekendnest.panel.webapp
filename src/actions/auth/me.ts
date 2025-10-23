@@ -12,12 +12,11 @@ export const meAction = async (): Promise<MeResponse | null> => {
   const token = cookieStore.get("auth_token")?.value;
 
   if (!token) {
-    // Not logged in
     return null;
   }
 
   try {
-    const res = await fetch("http://localhost:5211/api/Auth/me", {
+    const res = await fetch(`${process.env.BASE_URL}/api/Auth/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

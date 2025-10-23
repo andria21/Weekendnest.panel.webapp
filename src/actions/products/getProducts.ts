@@ -1,5 +1,6 @@
-// app/actions/getProducts.ts
 "use server";
+
+import { authorizedFetch } from "../apiClient";
 
 export interface ProductItem {
   id: number;
@@ -21,7 +22,7 @@ export interface ProductResponse {
 
 export const getProducts = async (): Promise<ProductResponse> => {
   try {
-    const res = await fetch("http://localhost:5211/api/catalog/products", {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",

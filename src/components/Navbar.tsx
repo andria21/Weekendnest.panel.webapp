@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
 import React, { ReactNode } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import { usePathname } from "next/navigation"
+import { usePathname } from "next/navigation";
 
-export default function Navbar({children}:{children:ReactNode}) {
-  const pathname = usePathname()
+export default function Navbar({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
 
   const pageTitleMap: Record<string, string> = {
     "/dashboard": "Dashboard",
@@ -19,10 +19,11 @@ export default function Navbar({children}:{children:ReactNode}) {
     "/cart": "Cart",
     "/categories": "Categories",
     "/collections": "Collections",
+    "/shipping": "Shipping",
     "/register": "Register",
-  }
+  };
 
-  const title = pageTitleMap[pathname] || "Untitled"
+  const title = pageTitleMap[pathname] || "Untitled";
 
   return (
     <SidebarProvider

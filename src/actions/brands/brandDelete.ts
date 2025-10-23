@@ -6,7 +6,7 @@ export const deleteBrand = async (id: string | number): Promise<boolean> => {
   try {
     if (!id) throw new Error('Missing brand ID');
 
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/brands/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/brands/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

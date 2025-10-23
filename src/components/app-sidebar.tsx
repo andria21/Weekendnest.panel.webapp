@@ -68,6 +68,11 @@ const data = {
       url: "collections",
       icon: IconChartBar,
     },
+    {
+      title: "Shipping",
+      url: "shipping",
+      icon: IconChartBar,
+    },
   ],
   navClouds: [
     {

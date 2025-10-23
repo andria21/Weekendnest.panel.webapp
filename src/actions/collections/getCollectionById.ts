@@ -16,7 +16,7 @@ export const getCollectionById = async (
   id: number
 ): Promise<CollectionData | null> => {
   try {
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/collections/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

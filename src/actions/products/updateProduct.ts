@@ -18,7 +18,7 @@ export const updateProduct = async (
   product: ProductUpdateInput
 ): Promise<ProductItem | null> => {
   try {
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/products/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

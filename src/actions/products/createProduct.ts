@@ -17,7 +17,7 @@ export const createProduct = async (
   product: ProductCreateInput
 ): Promise<ProductItem | null> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/products', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

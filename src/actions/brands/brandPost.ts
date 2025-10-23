@@ -21,7 +21,7 @@ export interface BrandResponse {
 
 export const createBrand = async (brand: BrandInput): Promise<BrandResponse | null> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/brands', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/brands`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

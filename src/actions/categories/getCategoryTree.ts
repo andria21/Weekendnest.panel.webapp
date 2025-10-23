@@ -13,7 +13,7 @@ export interface CategoryTreeItem {
 
 export const getCategoryTree = async (): Promise<CategoryTreeItem[]> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/categories/tree', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/categories/tree`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

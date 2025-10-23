@@ -23,7 +23,7 @@ export interface CategoryData {
 
 export const createCategory = async (category: CategoryInput): Promise<CategoryData | null> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/categories', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/categories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

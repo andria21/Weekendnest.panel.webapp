@@ -4,7 +4,7 @@ import { authorizedFetch } from '../apiClient';
 
 export const deleteProduct = async (id: number): Promise<boolean> => {
   try {
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/products/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products/${id}`, {
       method: 'DELETE',
     });
 

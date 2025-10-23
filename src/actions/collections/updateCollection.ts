@@ -26,7 +26,7 @@ export const updateCollection = async (
   collection: CollectionUpdateInput
 ): Promise<CollectionData | null> => {
   try {
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/collections/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

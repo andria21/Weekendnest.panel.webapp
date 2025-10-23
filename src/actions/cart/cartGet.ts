@@ -27,7 +27,7 @@ export const getCart = async (cartId: string | number): Promise<CartResponse | n
   try {
     if (!cartId) throw new Error('Cart ID is required');
 
-    const url = `http://localhost:5211/api/cart?cartId=${cartId}`;
+    const url = `${process.env.BASE_URL}/api/cart?cartId=${cartId}`;
 
     const res = await authorizedFetch(url, {
       method: 'GET',

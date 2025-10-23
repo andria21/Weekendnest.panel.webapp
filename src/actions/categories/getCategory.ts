@@ -16,7 +16,7 @@ export const getCategory = async (categoryId: string | number): Promise<Category
   try {
     if (!categoryId) throw new Error('Category ID is required');
 
-    const url = `http://localhost:5211/api/catalog/categories/${categoryId}`;
+    const url = `${process.env.BASE_URL}/api/catalog/categories/${categoryId}`;
 
     const res = await authorizedFetch(url, {
       method: 'GET',

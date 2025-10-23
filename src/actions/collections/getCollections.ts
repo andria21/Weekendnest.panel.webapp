@@ -21,7 +21,7 @@ export interface CollectionResponse {
 
 export const getCollections = async (): Promise<CollectionResponse | null> => {
   try {
-    const res = await authorizedFetch('http://localhost:5211/api/catalog/collections', {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/collections`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

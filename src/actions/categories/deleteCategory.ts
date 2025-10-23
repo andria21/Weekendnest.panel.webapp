@@ -6,7 +6,7 @@ export const deleteCategory = async (id: string | number): Promise<boolean> => {
   try {
     if (!id) throw new Error('Missing category ID');
 
-    const res = await authorizedFetch(`http://localhost:5211/api/catalog/categories/${id}`, {
+    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/categories/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
