@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authorizedFetch } from "../apiClient";
 import {
   CategoryData,
@@ -29,6 +30,8 @@ export const createCategory = async (
         `Failed to create category: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('categories')
 
     const data = await res.json();
     return CategoryDataSchema.parse(data);

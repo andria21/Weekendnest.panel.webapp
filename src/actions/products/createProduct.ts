@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authorizedFetch } from "../apiClient";
 import { z } from "zod";
 
-export const ProductCreateInputSchema = z.object({
+const ProductCreateInputSchema = z.object({
   sku: z.string(),
   name: z.string(),
   slug: z.string(),
@@ -13,7 +14,7 @@ export const ProductCreateInputSchema = z.object({
   status: z.string(),
 });
 
-export type ProductCreateInput = z.infer<typeof ProductCreateInputSchema>;
+type ProductCreateInput = z.infer<typeof ProductCreateInputSchema>;
 
 export const createProduct = async (
   product: ProductCreateInput
@@ -38,6 +39,8 @@ export const createProduct = async (
         `Failed to create product: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('products')
 
     const data: ProductCreateInput = await res.json();
     return data;

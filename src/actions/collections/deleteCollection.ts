@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { authorizedFetch } from '../apiClient';
 
 export const deleteCollection = async (id: string | number): Promise<boolean> => {
@@ -17,6 +18,8 @@ export const deleteCollection = async (id: string | number): Promise<boolean> =>
       const text = await res.text();
       throw new Error(`Failed to delete collection: ${res.status} ${res.statusText}. Body: ${text}`);
     }
+
+    revalidateTag('collections')
 
     return true;
   } catch (error) {

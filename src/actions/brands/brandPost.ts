@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { authorizedFetch } from "../apiClient";
+import { revalidateTag } from "next/cache";
 
 const BrandInputSchema = z.object({
   name: z.string(),
@@ -40,6 +41,7 @@ export const createBrand = async (brand: unknown) => {
         `Failed to create brand: ${res.status} ${res.statusText}`
       );
     }
+    revalidateTag('brands')
 
     const json = await res.json();
     return BrandResponseSchema.parse(json);

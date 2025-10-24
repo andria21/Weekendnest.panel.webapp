@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authorizedFetch } from "../apiClient";
 import { z } from "zod";
 
@@ -41,6 +42,8 @@ export const createCollection = async (collection: unknown) => {
         `Failed to create collection: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('collections')
 
     const data = await res.json();
     return CollectionItemSchema.parse(data);

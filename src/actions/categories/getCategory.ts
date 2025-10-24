@@ -1,9 +1,11 @@
-'use server';
+"use server";
 
 import { authorizedFetch } from "../apiClient";
 import { CategoryDataSchema, CategoryData } from "@/types/categoriesGet";
 
-export const getCategory = async (categoryId: string | number): Promise<CategoryData | null> => {
+export const getCategory = async (
+  categoryId: string | number
+): Promise<CategoryData | null> => {
   try {
     if (!categoryId) throw new Error("Category ID is required");
 
@@ -11,11 +13,16 @@ export const getCategory = async (categoryId: string | number): Promise<Category
     const res = await authorizedFetch(url, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
+      next: {
+        tags: ["categories"],
+      },
     });
 
     if (!res.ok) {
       const text = await res.text();
-      throw new Error(`Failed to fetch category: ${res.status} ${res.statusText}. Body: ${text}`);
+      throw new Error(
+        `Failed to fetch category: ${res.status} ${res.statusText}. Body: ${text}`
+      );
     }
 
     const data = await res.json();

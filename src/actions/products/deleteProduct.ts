@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { authorizedFetch } from '../apiClient';
 
 export const deleteProduct = async (id: number): Promise<boolean> => {
@@ -14,6 +15,8 @@ export const deleteProduct = async (id: number): Promise<boolean> => {
         `Failed to delete product: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('products')
 
     return true;
   } catch (error) {

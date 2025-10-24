@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { authorizedFetch } from "../apiClient";
+import { revalidateTag } from "next/cache";
 
 const BrandUpdateSchema = z.object({
   id: z.number(),
@@ -41,6 +42,8 @@ export const updateBrand = async (brand: unknown) => {
         `Failed to update brand: ${res.status} ${res.statusText}`
       );
     }
+
+    revalidateTag("brands");
 
     const json = await res.json();
     return BrandResponseSchema.parse(json);

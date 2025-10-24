@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from "next/cache";
 import { authorizedFetch } from "../apiClient";
 import {
   CategoryUpdateInputSchema,
@@ -30,6 +31,8 @@ export const updateCategory = async (
         `Failed to update category: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('categories')
 
     const data = await res.json();
     return CategoryDataSchema.parse(data);

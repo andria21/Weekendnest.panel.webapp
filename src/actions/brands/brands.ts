@@ -1,6 +1,8 @@
+"use server";
+
 import { z } from "zod";
 
-export const BrandItemSchema = z.object({
+const BrandItemSchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
@@ -9,15 +11,15 @@ export const BrandItemSchema = z.object({
   isActive: z.boolean(),
 });
 
-export const BrandResponseSchema = z.object({
+const BrandResponseSchema = z.object({
   items: z.array(BrandItemSchema),
   total: z.number(),
   page: z.number(),
   pageSize: z.number(),
 });
 
-export type BrandItem = z.infer<typeof BrandItemSchema>;
-export type BrandResponse = z.infer<typeof BrandResponseSchema>;
+type BrandItem = z.infer<typeof BrandItemSchema>;
+type BrandResponse = z.infer<typeof BrandResponseSchema>;
 
 export const getBrands = async (): Promise<BrandResponse> => {
   try {
@@ -25,6 +27,9 @@ export const getBrands = async (): Promise<BrandResponse> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
+      },
+      next: {
+        tags: ["brands"],
       },
     });
 

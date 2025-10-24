@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { authorizedFetch } from '../apiClient';
 import { z } from 'zod';
 
@@ -43,6 +44,8 @@ export const updateCollection = async (id: number, collection: unknown) => {
         `Failed to update collection: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('collections')
 
     const data = await res.json();
     return CollectionDataSchema.parse(data);

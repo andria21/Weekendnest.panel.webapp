@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { authorizedFetch } from '../apiClient';
 import { ProductItemSchema, ProductUpdateInputSchema, ProductItem, ProductUpdateInput } from '@/types/product';
 
@@ -24,6 +25,8 @@ export const updateProduct = async (
         `Failed to update product: ${res.status} ${res.statusText}. Body: ${text}`
       );
     }
+
+    revalidateTag('products')
 
     const data = await res.json();
     return ProductItemSchema.parse(data);

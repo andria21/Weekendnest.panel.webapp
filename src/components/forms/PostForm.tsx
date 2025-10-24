@@ -4,6 +4,8 @@ import { useState, startTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
 
 export interface FieldConfig {
   name: string;
@@ -49,7 +51,7 @@ export function EntityForm<T>({
       try {
         const result = await submitAction(formState as T);
         toast.success("Saved successfully!");
-        setFormState(initialState); // reset form
+        setFormState(initialState);
         console.log("Submission result:", result);
       } catch (err) {
         toast.error("Something went wrong");
@@ -76,16 +78,28 @@ export function EntityForm<T>({
           switch (field.type) {
             case "checkbox":
               return (
-                <div key={field.name} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id={field.name}
-                    checked={!!formState[field.name]}
-                    onChange={(e) => handleChange(field.name, e.target.checked)}
-                  />
-                  <label htmlFor={field.name} className="text-white">
-                    {field.label}
-                  </label>
+                <div key={field.name} className="w-full">
+                  <Label
+                    htmlFor={field.name}
+                    className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-colors
+               has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50
+               dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950"
+                  >
+                    <Checkbox
+                      id={field.name}
+                      checked={!!formState[field.name]}
+                      onCheckedChange={(checked) =>
+                        handleChange(field.name, !!checked)
+                      }
+                      className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white
+                 dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                    />
+                    <div className="grid gap-1.5 font-normal">
+                      <span className="text-sm leading-none font-medium">
+                        {formState[field.name] ? "Active" : "Inactive"}
+                      </span>
+                    </div>
+                  </Label>
                 </div>
               );
             case "select":

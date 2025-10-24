@@ -1,19 +1,27 @@
-'use server';
+"use server";
 
 import { authorizedFetch } from "../apiClient";
 import { ProductResponseSchema, ProductResponse } from "@/types/product";
 
 export const getProducts = async (): Promise<ProductResponse> => {
   try {
-    const res = await authorizedFetch(`${process.env.BASE_URL}/api/catalog/products`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    });
+    const res = await authorizedFetch(
+      `${process.env.BASE_URL}/api/catalog/products`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
+        next: {
+          tags: ["products"],
+        },
+      }
+    );
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
+      throw new Error(
+        `Failed to fetch products: ${res.status} ${res.statusText}`
+      );
     }
 
     const data = await res.json();

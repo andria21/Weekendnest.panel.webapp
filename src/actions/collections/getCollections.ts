@@ -27,6 +27,9 @@ export const getCollections = async () => {
       {
         method: "GET",
         headers: { "Content-Type": "application/json; charset=utf-8" },
+        next: {
+          tags: ["collections"],
+        },
       }
     );
 
