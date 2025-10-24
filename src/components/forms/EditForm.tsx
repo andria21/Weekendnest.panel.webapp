@@ -17,6 +17,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pencil } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface FieldConfig {
   name: string;
@@ -45,6 +56,7 @@ export const EditModalForm = <T extends { id: number }>({
   const [open, setOpen] = useState(false);
   const [formState, setFormState] = useState<T>({ ...data });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleChange = (name: string, value: string | number | boolean) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
@@ -67,25 +79,30 @@ export const EditModalForm = <T extends { id: number }>({
   };
 
   return (
-    <Dialog modal={false} open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer hover:bg-input/90 dark:hover:bg-foreground/50">
+    <Drawer
+      direction={isMobile ? "bottom" : "right"}
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <DrawerTrigger asChild>
+        <Button
+          variant="outline"
+          className="cursor-pointer hover:bg-input/90 dark:hover:bg-foreground/50"
+        >
           <Pencil className="h-5 w-5" />
         </Button>
-      </DialogTrigger>
+      </DrawerTrigger>
 
-      <DialogPortal>
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm animate-fadeIn z-50" />
+      <DrawerContent>
+        <DrawerHeader className="gap-1">
+          <DrawerTitle>Edit {entityName}</DrawerTitle>
+          <DrawerDescription>
+            Update {entityName.toLowerCase()} details below and click save.
+          </DrawerDescription>
+        </DrawerHeader>
 
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit {entityName}</DialogTitle>
-            <DialogDescription>
-              Update {entityName.toLowerCase()} details below and click save.
-            </DialogDescription>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="grid gap-4">
+        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" id="edit-form">
             {fields.map((field) => {
               const value = formState[field.name as keyof T];
 
@@ -97,7 +114,9 @@ export const EditModalForm = <T extends { id: number }>({
                         id={field.name}
                         type="checkbox"
                         checked={!!value}
-                        onChange={(e) => handleChange(field.name, e.target.checked)}
+                        onChange={(e) =>
+                          handleChange(field.name, e.target.checked)
+                        }
                         className="h-4 w-4 accent-primary"
                       />
                       <label htmlFor={field.name} className="text-white">
@@ -105,6 +124,7 @@ export const EditModalForm = <T extends { id: number }>({
                       </label>
                     </div>
                   );
+
                 case "select":
                   return (
                     <div key={field.name} className="grid gap-2">
@@ -112,7 +132,9 @@ export const EditModalForm = <T extends { id: number }>({
                       <select
                         id={field.name}
                         value={value as string}
-                        onChange={(e) => handleChange(field.name, e.target.value)}
+                        onChange={(e) =>
+                          handleChange(field.name, e.target.value)
+                        }
                         className="border border-input bg-background rounded-md px-3 py-2"
                         required={field.required}
                       >
@@ -125,6 +147,7 @@ export const EditModalForm = <T extends { id: number }>({
                       </select>
                     </div>
                   );
+
                 default:
                   return (
                     <div key={field.name} className="grid gap-2">
@@ -135,27 +158,29 @@ export const EditModalForm = <T extends { id: number }>({
                         placeholder={field.placeholder}
                         value={(value as string | number) ?? ""}
                         required={field.required}
-                        onChange={(e) => handleChange(field.name, e.target.value)}
+                        onChange={(e) =>
+                          handleChange(field.name, e.target.value)
+                        }
                         className="w-full"
                       />
                     </div>
                   );
               }
             })}
-
-            <DialogFooter className="mt-4">
-              <DialogClose asChild>
-                <Button type="button" variant="outline" disabled={isSubmitting}>
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : "Save"}
-              </Button>
-            </DialogFooter>
           </form>
-        </DialogContent>
-      </DialogPortal>
-    </Dialog>
+        </div>
+
+        <DrawerFooter>
+          <Button type="submit" disabled={isSubmitting} form="edit-form">
+            {isSubmitting ? "Saving..." : "Save"}
+          </Button>
+          <DrawerClose asChild>
+            <Button variant="outline" type="button" disabled={isSubmitting}>
+              Cancel
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
