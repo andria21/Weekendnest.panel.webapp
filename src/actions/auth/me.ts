@@ -24,6 +24,11 @@ export const meAction = async (): Promise<MeResponse | null> => {
       },
     });
 
+    if (res.status === 401) {
+      cookieStore.delete("auth_token");
+      return null;
+    }
+
     if (!res.ok) {
       console.error("Failed to fetch user info:", res.status, res.statusText);
       return null;

@@ -34,20 +34,35 @@ export function NavUser() {
     meAction().then((data) => setUser(data));
   }, []);
 
-  // if (!user?) return null;
-
   const handleLogout = () => {
     startTransition(async () => {
       try {
-        await logout(); // clear server-side cookie
+        await logout();
         toast.success("Logged out successfully");
-        router.push("/login"); // redirect to login page
+        router.push("/login");
       } catch (err) {
         console.error(err);
         toast.error("Logout failed");
       }
     });
   };
+
+  //   useEffect(() => {
+  //   const checkUser = async () => {
+  //     const data = await meAction();
+
+  //     if (!data) {
+  //       // Token expired or missing
+  //       await logout();
+  //       toast.warning("Session expired. Please log in again.");
+  //       router.replace("/login");
+  //     } else {
+  //       setUser(data);
+  //     }
+  //   };
+
+  //   checkUser();
+  // }, [router]);
 
   return (
     <SidebarMenu>
@@ -59,7 +74,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={"/avatars/shadcn.jpg"} alt={user?.name} />
+                <AvatarImage src={"/user.png"} alt={user?.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -80,7 +95,7 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={"/avatars/shadcn.jpg"} alt={user?.name} />
+                  <AvatarImage src={"/user.png"} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">

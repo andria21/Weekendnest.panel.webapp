@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Weekendnest",
+  title: "Weekendnest Dashboard",
   description: "Powered by Weekendnest",
 };
 
