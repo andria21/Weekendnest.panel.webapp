@@ -74,50 +74,50 @@ export function EntityCard<T extends Record<string, unknown>>({
   DeleteButton,
 }: EntityCardProps<T>) {
   return (
-    <div
-      className={`@container/card data-[slot=card]:from-primary/5 data-[slot=card]:to-card 
+    <div className={`@container/card ${className}`}>
+      <Card
+        className="@container/card data-[slot=card]:from-primary/5 data-[slot=card]:to-card 
                  dark:data-[slot=card]:bg-card data-[slot=card]:bg-gradient-to-t 
-                 data-[slot=card]:shadow-xs transform transition-transform duration-400 hover:scale-104 ${className}`}
-    >
-      <Card className="@container/card">
-      <CardHeader>
-        <CardDescription>{description}</CardDescription>
-        <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-          {title}
-        </CardTitle>
-        <CardAction>
-          <Badge variant="outline">
-            {badgeIcon}
-            {badgeText}
-          </Badge>
-        </CardAction>
-      </CardHeader>
-      <CardFooter className="flex-col items-start gap-1.5 text-sm">
-        <div className="line-clamp-1 flex gap-2 font-medium">
-          {footerPrimary}
-        </div>
-        <div className="text-muted-foreground">{footerSecondary}</div>
-        {footerTertiary && (
-          <div className="text-muted-foreground">{footerTertiary}</div>
-        )}
-        <div className="flex justify-between w-full">
-          {EditModalForm && (
-            <EditModalForm
-              entityName={entityName}
-              data={data}
-              fields={fields}
-              submitAction={submitAction}
-            />
+                 data-[slot=card]:shadow-xs transform transition-transform duration-400 hover:scale-104"
+      >
+        <CardHeader>
+          <CardDescription>{description}</CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {title}
+          </CardTitle>
+          <CardAction>
+            <Badge variant="outline">
+              {badgeIcon}
+              {badgeText}
+            </Badge>
+          </CardAction>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            {footerPrimary}
+          </div>
+          <div className="text-muted-foreground">{footerSecondary}</div>
+          {footerTertiary && (
+            <div className="text-muted-foreground">{footerTertiary}</div>
           )}
-          {DeleteButton && (
-            <DeleteButton
-              id={data.id}
-              deleteAction={deleteAction}
-              entityName={entityName}
-            />
-          )}
-        </div>
-      </CardFooter>
+          <div className="flex justify-between w-full">
+            {EditModalForm && (
+              <EditModalForm
+                entityName={entityName}
+                data={data}
+                fields={fields}
+                submitAction={submitAction}
+              />
+            )}
+            {DeleteButton && (
+              <DeleteButton
+                id={data.id}
+                deleteAction={deleteAction}
+                entityName={entityName}
+              />
+            )}
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
