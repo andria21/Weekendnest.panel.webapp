@@ -52,7 +52,7 @@ export default function CategoryEdit() {
   };
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full items-start">
+    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full items-start">
       <div className="flex gap-2 mb-4 col-span-full">
         <input
           type="number"

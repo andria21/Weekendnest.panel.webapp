@@ -49,24 +49,9 @@ const data = {
   },
   navMain: [
     {
-      title: "Products",
-      url: "products",
-      icon: IconPackage,
-    },
-    {
       title: "Brands",
       url: "brands",
       icon: IconArchive,
-    },
-    {
-      title: "Cart",
-      url: "cart",
-      icon: IconShoppingCart,
-    },
-    {
-      title: "Categories",
-      url: "categories",
-      icon: IconFolder,
     },
     {
       title: "Collections",
@@ -74,9 +59,24 @@ const data = {
       icon: IconLayersUnion,
     },
     {
+      title: "Categories",
+      url: "categories",
+      icon: IconFolder,
+    },
+    {
       title: "Shipping",
       url: "shipping",
       icon: IconTruck,
+    },
+    {
+      title: "Products",
+      url: "products",
+      icon: IconPackage,
+    },
+    {
+      title: "Cart",
+      url: "cart",
+      icon: IconShoppingCart,
     },
   ],
   navSecondary: [

@@ -19,8 +19,8 @@ export default async function CartEdit() {
   console.log(cart);
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-      <div className="order-2 lg:order-1 grid grid-cols-1 xl:grid-cols-2 gap-6 w-full"></div>
+    <div className="px-4 py-4 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <div className="order-2 lg:order-1 grid grid-cols-1 xl:grid-cols-2 gap-4 w-full"></div>
     </div>
   );
 }
