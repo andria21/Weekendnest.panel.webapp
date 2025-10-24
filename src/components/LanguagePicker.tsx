@@ -28,7 +28,7 @@ const languages = [
 export function LanguagePicker() {
   return (
     <Select>
-      <SelectTrigger className="w-[180px] cursor-pointer">
+      <SelectTrigger className="w-[140px] cursor-pointer">
         <SelectValue placeholder="Select country" />
       </SelectTrigger>
       <SelectContent>

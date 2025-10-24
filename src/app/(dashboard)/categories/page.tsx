@@ -2,15 +2,6 @@
 
 import React, { useState } from "react";
 import { getCategory } from "@/actions/categories/getCategory";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-  CardAction,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { EntityForm, FieldConfig } from "@/components/forms/PostForm";
 import { createCategory } from "@/actions/categories/createCategory";
 import { EditModalForm } from "@/components/forms/EditForm";
@@ -18,6 +9,7 @@ import { DeleteButton } from "@/components/forms/DeleteButton";
 import { deleteCategory } from "@/actions/categories/deleteCategory";
 import { updateCategory } from "@/actions/categories/updateCategory";
 import { CategoryData } from "@/types/categoriesGet";
+import { EntityCard } from "@/components/BoxCard";
 
 const categoryFields: FieldConfig[] = [
   {
@@ -60,7 +52,7 @@ export default function CategoryEdit() {
   };
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full items-start">
       <div className="flex gap-2 mb-4 col-span-full">
         <input
           type="number"
@@ -79,53 +71,33 @@ export default function CategoryEdit() {
       </div>
 
       {category && (
-        <Card
+        <EntityCard
           key={category.id}
-          className="@container/card data-[slot=card]:from-primary/5 data-[slot=card]:to-card 
-                 dark:data-[slot=card]:bg-card data-[slot=card]:bg-gradient-to-t 
-                 data-[slot=card]:shadow-xs"
-        >
-          <CardHeader>
-            <CardDescription>{category.name}</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              {category.slug}
-            </CardTitle>
-            <CardAction>
-              <Badge variant="outline">
-                {category.isActive ? "Active" : "Inactive"}
-              </Badge>
-            </CardAction>
-          </CardHeader>
-
-          <CardFooter className="flex-col items-start gap-1.5 text-sm">
-            <div className="line-clamp-1 flex gap-2 font-medium">
-              {category.description}
-            </div>
-            <div className="text-muted-foreground">
-              Position: {category.position} | Parent ID: {category.parentId}
-            </div>
-            <EditModalForm
-              entityName="Brand"
-              data={category}
-              fields={[
-                { name: "name", label: "Name" },
-                { name: "slug", label: "Slug" },
-                { name: "parentId", label: "Parent ID", type: "number" },
-                { name: "description", label: "Description" },
-                { name: "isActive", label: "Active", type: "checkbox" },
-                { name: "position", label: "Position", type: "number" },
-              ]}
-              submitAction={async (data) => {
-                return updateCategory(data.id, data);
-              }}
-            />
-            <DeleteButton
-              id={category.id}
-              deleteAction={deleteCategory}
-              entityName="Category"
-            />
-          </CardFooter>
-        </Card>
+          data={category}
+          description={category.name}
+          title={category.slug}
+          badgeText={category.isActive ? "Active" : "Inactive"}
+          footerPrimary={category.description}
+          footerSecondary={`Position: ${category.position} | Parent ID: ${category.parentId}`}
+          badgeIcon={null}
+          footerIcon={null}
+          entityName="Category"
+          fields={[
+            { name: "name", label: "Name" },
+            { name: "slug", label: "Slug" },
+            { name: "parentId", label: "Parent ID", type: "number" },
+            { name: "description", label: "Description" },
+            { name: "isActive", label: "Active", type: "checkbox" },
+            { name: "position", label: "Position", type: "number" },
+          ]}
+          submitAction={async (data) => {
+            const { id, ...updateData } = data;
+            return updateCategory(id, updateData);
+          }}
+          deleteAction={deleteCategory}
+          EditModalForm={EditModalForm}
+          DeleteButton={DeleteButton}
+        />
       )}
       <div className="order-1 lg:order-2">
         <EntityForm

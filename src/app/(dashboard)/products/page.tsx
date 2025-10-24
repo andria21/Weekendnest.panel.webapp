@@ -69,7 +69,7 @@ export default async function ProductsEdit() {
   const products = await getProducts();  
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full items-start">
       <div className="order-2 lg:order-1 grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
         {products?.items.map((product) => (
           <Card

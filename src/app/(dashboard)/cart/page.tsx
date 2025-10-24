@@ -11,8 +11,6 @@ import { IconTrendingUp } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 import { EntityForm, FieldConfig } from "@/components/forms/PostForm";
-import { EditBrandModal } from "@/components/forms/EditForm";
-import { DeleteBrandButton } from "@/components/forms/DeleteButton";
 import { createBrand } from "@/actions/brands/brandPost";
 import { getCart } from "@/actions/cart/cartGet";
 

@@ -17,24 +17,31 @@ interface Field {
 }
 
 interface EntityCardProps<T extends Record<string, unknown>> {
+  // Core data
   data: T & { id: string | number };
 
+  // Card content configuration
   description: string;
   title: string;
   badgeText: string;
-  footerPrimary: string;
+  footerPrimary: string | undefined;
   footerSecondary: string;
+  footerTertiary?: string;
 
+  // Optional customization
   badgeIcon?: React.ReactNode;
   footerIcon?: React.ReactNode;
   className?: string;
 
+  // Edit modal configuration
   entityName: string;
   fields: Field[];
   submitAction: (data: T) => Promise<unknown>;
 
+  // Delete configuration
   deleteAction: (id: string | number) => Promise<boolean>;
 
+  // Optional components to inject
   EditModalForm?: React.ComponentType<{
     entityName: string;
     data: T;
@@ -55,6 +62,7 @@ export function EntityCard<T extends Record<string, unknown>>({
   badgeText,
   footerPrimary,
   footerSecondary,
+  footerTertiary,
   badgeIcon = <IconTrendingUp />,
   footerIcon = <IconTrendingUp className="size-4" />,
   className = "",
@@ -66,11 +74,12 @@ export function EntityCard<T extends Record<string, unknown>>({
   DeleteButton,
 }: EntityCardProps<T>) {
   return (
-    <Card
+    <div
       className={`@container/card data-[slot=card]:from-primary/5 data-[slot=card]:to-card 
                  dark:data-[slot=card]:bg-card data-[slot=card]:bg-gradient-to-t 
                  data-[slot=card]:shadow-xs transform transition-transform duration-400 hover:scale-104 ${className}`}
     >
+      <Card className="@container/card">
       <CardHeader>
         <CardDescription>{description}</CardDescription>
         <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -85,25 +94,31 @@ export function EntityCard<T extends Record<string, unknown>>({
       </CardHeader>
       <CardFooter className="flex-col items-start gap-1.5 text-sm">
         <div className="line-clamp-1 flex gap-2 font-medium">
-          {footerPrimary} {footerIcon}
+          {footerPrimary}
         </div>
         <div className="text-muted-foreground">{footerSecondary}</div>
-        {EditModalForm && (
-          <EditModalForm
-            entityName={entityName}
-            data={data}
-            fields={fields}
-            submitAction={submitAction}
-          />
+        {footerTertiary && (
+          <div className="text-muted-foreground">{footerTertiary}</div>
         )}
-        {DeleteButton && (
-          <DeleteButton
-            id={data.id}
-            deleteAction={deleteAction}
-            entityName={entityName}
-          />
-        )}
+        <div className="flex justify-between w-full">
+          {EditModalForm && (
+            <EditModalForm
+              entityName={entityName}
+              data={data}
+              fields={fields}
+              submitAction={submitAction}
+            />
+          )}
+          {DeleteButton && (
+            <DeleteButton
+              id={data.id}
+              deleteAction={deleteAction}
+              entityName={entityName}
+            />
+          )}
+        </div>
       </CardFooter>
-    </Card>
+      </Card>
+    </div>
   );
 }

@@ -42,7 +42,7 @@ export default function ShippingEdit() {
   };
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full items-start">
       <div className="flex gap-2 mb-4 col-span-full">
         <input
           type="text"

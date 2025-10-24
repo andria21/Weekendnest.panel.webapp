@@ -45,7 +45,7 @@ export default async function BrandsEdit() {
   const brands = await getBrands();
 
   return (
-    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+    <div className="px-6 py-4 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full items-start">
       <div className="order-2 lg:order-1 grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
         {brands.items.map((brand) => (
           <EntityCard
