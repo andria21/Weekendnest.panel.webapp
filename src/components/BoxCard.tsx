@@ -110,7 +110,7 @@ export function EntityCard<T extends Record<string, unknown>>({
                 height={1000}
                 width={1000}
                 alt="Badge"
-                className="rounded-md w-24 h-24"
+                className="rounded-md w-24 h-24 object-cover"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
                 }}

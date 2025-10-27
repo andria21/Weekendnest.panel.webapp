@@ -49,10 +49,10 @@ export const DeleteButton = <T extends string | number>({
 
   return (
     <Button
-      variant="destructive"
+      variant="default"
       onClick={handleDelete}
       disabled={isPending}
-      className="flex items-center gap-2 cursor-pointer"
+      className="flex items-center gap-2 cursor-pointer text-white bg-red-800 hover:bg-red-900"
     >
       <Trash2 className="h-4 w-4" />
       {isPending ? "Deleting..." : "Delete"}
