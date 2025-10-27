@@ -53,7 +53,7 @@ export default async function BrandsEdit() {
             data={brand}
             description={brand.name}
             title={brand.slug}
-            badgeText={`${brand.logoUrl} - LOGO URL`}
+            badgeText={`${brand.logoUrl}`}
             footerPrimary={brand.description}
             footerSecondary={brand.isActive ? "Active" : "Inactive"}
             entityName="Brand"

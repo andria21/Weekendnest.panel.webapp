@@ -47,23 +47,6 @@ export function NavUser() {
     });
   };
 
-  //   useEffect(() => {
-  //   const checkUser = async () => {
-  //     const data = await meAction();
-
-  //     if (!data) {
-  //       // Token expired or missing
-  //       await logout();
-  //       toast.warning("Session expired. Please log in again.");
-  //       router.replace("/login");
-  //     } else {
-  //       setUser(data);
-  //     }
-  //   };
-
-  //   checkUser();
-  // }, [router]);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>

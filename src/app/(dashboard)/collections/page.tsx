@@ -55,7 +55,7 @@ export default async function BrandsEdit() {
             data={collection}
             description={collection.name}
             title={collection.slug}
-            badgeText={`${collection.imageUrl} - Image URL`}
+            badgeText={`${collection.imageUrl}`}
             footerPrimary={collection.description}
             footerSecondary={collection.isActive ? "Active" : "Inactive"}
             footerTertiary={`Position: ${collection.position}`}

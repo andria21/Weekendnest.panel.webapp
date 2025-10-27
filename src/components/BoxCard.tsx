@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardHeader,
@@ -7,7 +8,12 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { IconTrendingUp } from "@tabler/icons-react";
+import {
+  IconTrendingUp,
+  IconImageInPicture,
+  IconPictureInPictureOn,
+} from "@tabler/icons-react";
+import Image from "next/image";
 
 interface Field {
   name: string;
@@ -63,7 +69,7 @@ export function EntityCard<T extends Record<string, unknown>>({
   footerPrimary,
   footerSecondary,
   footerTertiary,
-  badgeIcon = <IconTrendingUp />,
+  badgeIcon = <IconPictureInPictureOn />,
   footerIcon = <IconTrendingUp className="size-4" />,
   className = "",
   entityName,
@@ -73,6 +79,14 @@ export function EntityCard<T extends Record<string, unknown>>({
   EditModalForm,
   DeleteButton,
 }: EntityCardProps<T>) {
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
   return (
     <div className={`@container/card ${className}`}>
       <Card
@@ -81,15 +95,30 @@ export function EntityCard<T extends Record<string, unknown>>({
                  data-[slot=card]:shadow-xs transform transition-transform duration-400 hover:scale-104"
       >
         <CardHeader>
-          <CardDescription>{description}</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {title}
-          </CardTitle>
+          <div>
+            <CardDescription>{description}</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+              {title}
+            </CardTitle>
+          </div>
           <CardAction>
-            <Badge variant="outline">
-              {badgeIcon}
-              {badgeText}
-            </Badge>
+            {/* <Badge variant="outline"> */}
+            {/* {badgeIcon} */}
+            {badgeText && isValidUrl(badgeText) ? (
+              <Image
+                src={badgeText}
+                height={1000}
+                width={1000}
+                alt="Badge"
+                className="rounded-md w-24 h-24"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            ) : (
+              badgeIcon
+            )}
+            {/* </Badge> */}
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
