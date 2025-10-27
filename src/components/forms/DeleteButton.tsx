@@ -21,30 +21,34 @@ export const DeleteButton = <T extends string | number>({
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
-    toast(
-      `Are you sure you want to delete this ${entityName}?`,
-      {
-        action: {
-          label: "Yes",
-          onClick: () => {
-            startTransition(async () => {
-              try {
-                const success = await deleteAction(id);
-                if (success) {
-                  toast.success(`${entityName} deleted successfully!`);
-                  if (onSuccess) onSuccess();
-                } else {
-                  toast.error(`Failed to delete ${entityName}.`);
-                }
-              } catch (err) {
-                toast.error(`Something went wrong while deleting ${entityName}.`);
-                console.error(err);
+    toast(`Are you sure you want to delete this ${entityName}?`, {
+      action: {
+        label: "Yes",
+        onClick: () => {
+          startTransition(async () => {
+            try {
+              const success = await deleteAction(id);
+              if (success) {
+                toast.success(`${entityName} deleted successfully!`);
+                if (onSuccess) onSuccess();
+              } else {
+                toast.error(`Failed to delete ${entityName}.`);
               }
-            });
-          },
+            } catch (err) {
+              toast.error(`Something went wrong while deleting ${entityName}.`);
+              console.error(err);
+            }
+          });
         },
-      }
-    );
+      },
+
+      cancel: {
+        label: "No",
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+    });
   };
 
   return (

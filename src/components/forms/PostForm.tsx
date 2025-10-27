@@ -65,7 +65,7 @@ export function EntityForm<T>({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col w-full p-6 gap-4 bg-[#171717] rounded-2xl shadow-md"
+      className="flex flex-col w-full p-6 gap-4 dark:bg-[#171717] rounded-2xl shadow-md"
     >
       {title && (
         <h1 className="text-center pb-2 text-lg font-semibold text-white">
